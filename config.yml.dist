@@ -1,0 +1,9 @@
+---
+influxdb:
+  host: 'influxdb.example.com'
+  port: 8086
+  ssl: true
+  verify_ssl: true
+  database: 'database'
+  username: 'username'
+  password: 'password'
