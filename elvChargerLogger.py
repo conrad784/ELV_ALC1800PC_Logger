@@ -113,7 +113,7 @@ def send_to_influxdb(client, data, header, timestamp=datetime.datetime.utcnow())
                 measurement.add_field(header[k], int(entry[k]))
             except:
                 measurement.add_field(header[k], entry[k])
-        logging.info("Write: {0}".format(measurement))
+        logging.debug("Write: {0}".format(measurement))
         points.append(deepcopy(measurement))
     try:
         client.write_points(points)

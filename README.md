@@ -21,5 +21,24 @@ B3   C       F      1482            218     217                                 
 B4   -       -
 ```
 
+## Run as systemd service
+It is not guaranteed that after restart the device will get the same ttyUSBx.
+Therefore we have to write a udev rule to make it static. Following the very helpful [Arch Wiki](https://wiki.archlinux.org/title/Udev#Setting_static_device_names)
+We find all information about the device via `udevadm info --attribute-walk --name=/dev/ttyUSB0`
+
+```
+#/etc/udev/rules.d/99-elc-alc1800.rules
+KERNEL=="ttyUSB[0-9]*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", SYMLINK+="elv-alc1800"
+```
+
+Don't forget to reload the rules.
+`udevadm control --reload-rules`
+
+Put the systemd file to `~/.config/systemd/user/` and you must have enabled [Lingering](https://wiki.archlinux.org/title/systemd/User#Automatic_start-up_of_systemd_user_instances).
+```
+systemctl --user daemon-reload
+systemctl --user enable --now elv-alc1800@elv-alc1800.service
+```
+
 ## Notes
 You can decompile the original software with [ILSpy](https://github.com/icsharpcode/ILSpy/).

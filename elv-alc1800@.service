@@ -1,0 +1,10 @@
+[Unit]
+Description=Run ELV-ALC1800 monitor on %I.
+
+[Service]
+Type=simple
+ExecStart=%h/git/ELV_ALC1800PC_Logger/elvChargerLogger.py -n 60 /dev/%i
+WorkingDirectory=%h/git/ELV_ALC1800PC_Logger
+
+[Install]
+WantedBy=multi-user.target
